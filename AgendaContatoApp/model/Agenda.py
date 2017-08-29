@@ -2,6 +2,7 @@ from model.Contato import Contato
 from model.Pessoa import Pessoa
 from model.Telefone import Telefone
 import json
+import datetime
 
 class Agenda(Contato):
     def __init__(self, nome, email, nascimento):
@@ -10,11 +11,12 @@ class Agenda(Contato):
          self.contato = []
          if self.contato != []:
             self.salvarJson()
-         super(Agenda,self).__init__("25", nome, email, nascimento)
+         super(Agenda,self).__init__(str(datetime.datetime.now()), nome, email, nascimento)
 
 
     def contarContatos(self):
         return len(self.contato)
+
 
 
     def carregarJson(self):
@@ -27,11 +29,13 @@ class Agenda(Contato):
 
 
     def salvarJson(self):
-        jsonAgenda = open("agenda.json","w")
-        jsonStrinAgenda = self.agendaJson
-        jsonStrinAgenda = json.dumps(jsonStrinAgenda)
-        print(jsonStrinAgenda)
-        jsonAgenda.write(jsonStrinAgenda)
+        try:
+            jsonAgenda = open("agenda.json","w")
+            jsonStrinAgenda = self.agendaJson
+            jsonStrinAgenda = json.dumps(jsonStrinAgenda)
+            jsonAgenda.write(jsonStrinAgenda)
+        except:
+            print("Erro ao salvar no arquivo json")
 
 
 
@@ -45,6 +49,9 @@ class Agenda(Contato):
             print("Nome: %s" % (self.contato[cont]["contato"]["pessoa"]["nome"]))
             print("Email: %s" % (self.contato[cont]["contato"]["pessoa"]["email"]))
             print("Data de Nascimento: %s" % (self.contato[cont]["contato"]["pessoa"]["nascimento"]))
+            print("Data de Criação: %s" % (self.contato[cont]["contato"]["criacao"]))
+            self.telefone = self.agendaJson["contatos"][cont]["contato"]["telefones"]
+            self.listarTelefones()
             cont += 1
 
 
@@ -54,36 +61,58 @@ class Agenda(Contato):
         continuar = True
         listTelefone = []
         cont = 0
+        data = str(datetime.datetime.now())
 
         while(continuar):
-            op = int(input("Deseja cadastra um telefone:\n 1) Sim\n 2) Não\n>>: "))
-            if op==1:
-                cont+=1
-                numero = input("numero: ")
-                ddd = input("ddd: ")
-                codicoPais = input("codicoPais: ")
-                telefone = Telefone(numero,ddd,codicoPais)
-                listTelefone.append({"telefone":telefone.__dict__})
-            if op==2:
-                continuar=False
-                self.contato.append({"contato":{"pessoa":pessoa.__dict__,"telefones":listTelefone}})
-                self.agendaJson["contatos"] = (self.contato)
-                self.telefone.append(listTelefone)
-                self.salvarJson()
+            print("Deseja cadastra um telefone:")
+            print("1) Sim")
+            print("2) Não")
+            try:
+                op = int(input(">>: "))
+                if op==1:
+                    cont+=1
+                    numero = input("numero: ")
+                    try:
+                        ddd = int(input("ddd: "))
+                        codicoPais = int(input("codicoPais: "))
+                        telefone = Telefone(numero,ddd,codicoPais)
+                        listTelefone.append({"telefone":telefone.__dict__})
+                    except ValueError:
+                        print("Cadastro cancelado...Erro número invalido")
+                elif op==2:
+                    continuar=False
+                    self.contato.append({"contato":{"pessoa":pessoa.__dict__,"telefones":listTelefone,"criacao":data}})
+                    self.agendaJson["contatos"] = (self.contato)
+                    self.telefone.append(listTelefone)
+                    self.salvarJson()
+                else:
+                    print("Digite um número válido")
+            except ValueError:
+                print("digite um número válido")
 
-    def excluirContato(self):
+    def excluirContato(self,nome):
         cont = 0
         while (cont < self.contarContatos()):
-            print("%s) Contato-%s (%s)" %(str(cont+1),str(cont+1),(self.contato[cont]["contato"]["pessoa"]["nome"])))
+            if nome == (self.contato[cont]["contato"]["pessoa"]["nome"]):
+                print("%s"%(self.contato[cont]["contato"]["pessoa"]["nome"]))
+                print("Email: %s" % (self.contato[cont]["contato"]["pessoa"]["email"]))
+                print("Data de Nascimento: %s" % (self.contato[cont]["contato"]["pessoa"]["nascimento"]))
+                print("Confirma exclução: ")
+                print("1) Sim")
+                print("2) Não")
+                try:
+                    op = int(input(">>: "))
+                    if op== 1:
+                        del (self.contato[cont])
+                        self.salvarJson()
+                    elif op==2:
+                        break
+                    else:
+                        print("Número inválido")
+                except ValueError:
+                    print("Número inválido")
             cont += 1
-            if cont == self.contarContatos():
-                print("%i) Cancelar"%(cont+1))
-        op = int(input(">>: "))
-        if op==(cont+1):
-            print("CANCELADO")
-        else:
-            del(self.contato[op-1])
-            self.salvarJson()
+
 
 
 
@@ -118,7 +147,6 @@ class Agenda(Contato):
                         nomeBusca = input("Digite o nome da pessoa: ")
                     if op==2:
                         break
-
 
 
 
