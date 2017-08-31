@@ -2,10 +2,9 @@ from model.SistemaAgenda import SistemaAgenda
 
 def main():
 
-    continuar = True
     sistema = SistemaAgenda()
 
-    while(continuar):
+    while(True):
 
         if sistema.agendaExistJson() == False:
             agenda = sistema.criarAgenda()
