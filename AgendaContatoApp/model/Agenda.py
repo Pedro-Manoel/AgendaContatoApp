@@ -29,18 +29,6 @@ class Agenda(Contato):
             print("ERRO!, O Arquivo Não Foi Carregado Com Sucesso")
 
 
-    def salvarJson(self):
-        try:
-            jsonAgenda = open("agenda.json","w")
-            jsonStrinAgenda = self.agendaJson
-            jsonStrinAgenda = json.dumps(jsonStrinAgenda, indent=4)
-            jsonAgenda.write(jsonStrinAgenda)
-        except:
-            print("Erro Ao Salvar No Arquivo Json")
-
-
-
-
 
 
     def listarContatos(self):
