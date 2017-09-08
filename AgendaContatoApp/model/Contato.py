@@ -1,34 +1,21 @@
-from model.Pessoa import Pessoa
-from datetime import *
+"""
+responsável pelo controle da class Contato
+"""
 
-class Contato():
-    def __init__(self, nome, email, dia, mes ,ano):
-        self.criacao = date.today()
-        self.pessoa = Pessoa(nome, email, dia, mes, ano)
-
-
+class Contato:
+    def __init__(self, pessoa, criacao = None):
+        self.criacao = criacao
+        self.pessoa = pessoa
+        self.telefones = []
 
     def listarTelefones(self):
-
-        cont = 0
-
-        if (len(self.telefone)==0):
-            print("Este Contato Não Possui Números De Telefones\n")
-        else:
+        cont = 0 # Váriavel usada para enumerar os telefones ao emprimir eles na tela
+        if len(self.telefones) == 0: # Verificando se a telefones salvos no contato se não tiver ixibir a mensagem
+            print("Este Contato Não Possui Telefones Salvos")
+        else: # Confirmado a exitencia de telefones no contato proseguir com o metodo de listagem
             print("=====TELEFONES")
-            while(cont <len(self.telefone)):
-                num = self.telefone[cont]["telefone"]["numero"]
-                ddd = self.telefone[cont]["telefone"]["ddd"]
-                codicoPais = self.telefone[cont]["telefone"]["codicoPais"]
-                try:
-                    print("%sº-Telefone" % str(cont + 1))
-                    print("+%i %i-%s\n"%(codicoPais,ddd,num))
-                    cont +=1
-                except:
-                    break
-
-
-
-
-
+            for telefone in self.telefones:
+                cont += 1
+                print("%iº-Telefone" %cont)
+                print("+%i %i-%s\n" %(telefone.codicoPais, telefone.ddd, telefone.numero))
 
