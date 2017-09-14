@@ -1,5 +1,5 @@
 """
-responsável pelo controle da class Contato
+responsável pelo controle da class Contato.
 """
 
 class Contato:
@@ -9,10 +9,10 @@ class Contato:
         self.telefones = []
 
     def listarTelefones(self):
-        cont = 0 # Váriavel usada para enumerar os telefones ao emprimir eles na tela
-        if len(self.telefones) == 0: # Verificando se a telefones salvos no contato se não tiver ixibir a mensagem
+        cont = 0 # Váriavel usada para enumerar os telefones ao imprimi-los na tela.
+        if len(self.telefones) == 0: # Verificando se a telefones salvos no contato se não tiver ixibir a mensagem informativa.
             print("Este Contato Não Possui Telefones Salvos")
-        else: # Confirmado a exitencia de telefones no contato proseguir com o metodo de listagem
+        else: # Confirmado a exitencia de telefones no contato proseguir com o metodo de listagem.
             print("=====TELEFONES")
             for telefone in self.telefones:
                 cont += 1

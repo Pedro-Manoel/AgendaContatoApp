@@ -1,5 +1,5 @@
 """
-responsável pelo controle da class Pessoa
+responsável pelo controle da class Pessoa.
 """
 
 class Pessoa:

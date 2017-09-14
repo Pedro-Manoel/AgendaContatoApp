@@ -1,5 +1,5 @@
 """
-responsável pelo controle da class Telefone
+responsável pelo controle da class Telefone.
 """
 
 class Telefone:
